@@ -1,0 +1,37 @@
+<button class="ui icon button PomodoreTimer-header" slide-toggle>
+	<i class="wait icon"></i>
+</button>
+<div class="PomodoreTimer-content">
+	<div class="ui cards">
+		<div class="card">
+			<div class="content">
+				<div class="header">{{vm.Time.fancyTimeFormat(vm.time)}}</div>
+				<div class="meta">Times left </div>
+				<div class="description">Enter new value in minutes </div>
+			</div>
+			<div class="extra content">
+				<button class="ui compact icon button" ng-click="vm.preset(5)">
+					5min
+				</button>
+				<button class="ui compact icon button" ng-click="vm.preset(10)">
+					10min
+				</button>
+				<button class="ui compact icon button" ng-click="vm.preset(25)">
+					25min
+				</button>
+			</div>
+			<div class="extra content">
+				<div class="ui input">
+					<input type="number" placeholder="new value in minutes" ng-model="vm.value">
+				</div>
+				<button class="ui compact icon button" ng-click="vm.start()">
+					<i class="play icon"></i>
+				</button>
+				<button class="ui compact icon button" ng-click="vm.stop()">
+					<i class="stop icon"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+	<div></div>
+</div>

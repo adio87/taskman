@@ -1,0 +1,33 @@
+.Add-task-container {
+  margin-top: 20px;
+}
+
+.Completed-tasks {
+  opacity: .6;
+}
+
+.Completed-tasks label {
+  text-decoration: line-through;
+}
+
+.Incomplete-tasks.ui.divided.ordered.list > .item:hover {
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+.Incomplete-tasks.ui.divided.ordered.list > .item {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.Incomplete-tasks > .item, .Incomplete-tasks > .item label {
+  cursor: pointer;
+}
+
+.ui.horizontal.divider {
+  cursor: pointer;
+}
+
+.ui.styled.accordion#Comleted-tasks {
+  width: 100%;
+  box-shadow: none;
+}

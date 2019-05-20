@@ -1,0 +1,63 @@
+<div class="ui Profile-container">
+    <div class="Add-task-container">
+        <h2 class="ui header">{{vm.listDetail.title}}</h2>
+        <div class="ui fluid icon input">
+            <input type="text" placeholder="Add new task in current list..." name="title" ng-model="vm.title" my-enter="vm.create()" my-ctrl-enter="vm.create('first')">
+            <i class="circular plus link icon" ng-click="vm.create()"></i>
+        </div>
+    </div>
+    <div class="ui relaxed divided ordered list Incomplete-tasks"
+         dnd-list="vm.Semantic.currentList.tasks"
+         dnd-allowed-types="vm.allowedTypes"
+         ng-if="vm.Semantic.currentList.tasks.length">
+        <div class="item" ng-repeat="(key, task) in vm.Semantic.currentList.tasks | orderBy: vm.Semantic.orderBy.value"
+             dnd-draggable="task"
+             dnd-type="vm.allowedTypes[0]"
+             dnd-moved="vm.spliceDraggedTask()"
+             dnd-effect-allowed="move"
+             dnd-dragstart="vm.setDraggedTask(task)"
+             dnd-dragend = "vm.order(event)"
+             ng-dblclick="vm.toggle(task)"
+             context-menu="vm.rightClickTasksMenu">
+            <div ng-if="vm.Semantic.isMobile()" class="right floated content" ng-click="vm.toggle(task)">
+                <div class="ui button mini">Details</div>
+            </div>
+            <div class="right floated content" ng-if="task.estimated_time > 0">
+                <div class="ui small teal label">{{vm.Time.fancyTimeFormat(task.estimated_time)}}</div>
+            </div>
+            <div class="Tags-container right floated">
+                <a class="ui tag label" ng-class="item.tag.color" ng-repeat="item in task.tag">{{item.tag.title}}</a>
+            </div>
+            <div class="content">
+                <div class="ui checkbox">
+                    <input type="checkbox" name="{{task.title}}" ng-click="vm.check(task)">
+                    <label ng-class="{'Due-date-task': vm.isDue(task), 'High-priority': task.high_priority == 1}">{{task.title}}&nbsp;&nbsp;<i class="warning sign icon" ng-if="task.high_priority == 1"></i><div class="ui red horizontal label" ng-if="vm.isDue(task)">DUE</div></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui styled accordion" id="Comleted-tasks">
+        <div class="title">
+            <div class="ui horizontal divider">
+                Completed tasks
+                <i class="dropdown icon"></i>
+            </div>
+        </div>
+        <div class="content">
+            <div class="ui relaxed divided list Completed-tasks">
+                <div class="item" ng-repeat="task in vm.Semantic.currentList.done"
+                     ng-dblclick="vm.toggle(task)">
+                    <div ng-if="vm.Semantic.isMobile()" class="right floated content" ng-click="vm.toggle(task)">
+                        <div class="ui button mini">Details</div>
+                    </div>
+                    <div class="content">
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="{{task.title}}" ng-click="vm.check(task)" checked>
+                            <label>{{task.title}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

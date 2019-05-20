@@ -1,0 +1,73 @@
+@import "../../../material/project";
+
+.List-details {
+  display: block;
+}
+
+.ui.sidebar .item.Bottom-actions {
+  width: 100%;
+  bottom: 0;
+}
+
+.ui.vertical.menu .item:focus {
+  outline: none;
+}
+
+.sidebar .Sidebar-container {
+  margin: auto 10px;
+}
+
+.ui.vertical.menu.left .item > i.icon {
+  margin: 0 5px 0 0;
+  float: left;
+}
+
+.ui.sidebar.right .ui.form label, .ui.sidebar.right .ui.slider label {
+  color: #fff !important;
+}
+
+.High-priority {
+  color: #ff0000 !important;
+  font-weight: 900;
+}
+
+.Due-date-task {
+  font-weight: 900;
+}
+
+.Create-predefinedList-modal .icon, .Share-modal .icon {
+  cursor: pointer;
+}
+
+.ui.inverted.menu {
+  background: $sidebar;
+}
+
+.Folders-accordion.ui.accordion:not(.styled) .title ~ .content:not(.ui) .item {
+  padding-left: 30px;
+}
+
+.dndDragover .dndPlaceholder {
+  list-style: none;
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+  background-color: #E5E8E8;
+  opacity: .2;
+  border-top: .5px solid #909497;
+  border-bottom: .5px solid #909497;
+}
+
+.dndDragging:not(.dndDraggingSource) {
+  width: 200px !important;
+}
+
+.dndDragging.dndDraggingSource {
+  display: none !important;
+}
+
+.Dragover-task {
+  -webkit-box-shadow: inset 0 0 0 1px #0b3e6f !important;
+  -moz-box-shadow: inset 0 0 0 1px #0b3e6f !important;
+  box-shadow: inset 0 0 0 1px #0b3e6f !important;
+}

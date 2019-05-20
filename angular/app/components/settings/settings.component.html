@@ -1,0 +1,121 @@
+<div class="ui Profile-container Settings-tabs">
+    <div class="ui horizontal divider">
+        Settings
+    </div>
+
+    <div class="ui pointing secondary menu">
+        <a class="item active" data-tab="s1">Export data</a>
+        <a class="item" data-tab="s2">Import data</a>
+        <a class="item" data-tab="s3">Profile Settings</a>
+        <a class="item" data-tab="s4">Manage Tags</a>
+    </div>
+    <div class="ui tab segment active" data-tab="s1">
+        <div class="ui form">
+            <div class="field">
+                <p>You can export all data into <strong>json</strong> format file</p>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <div class="ui selection dropdown Export-dropdown">
+                        <input type="hidden" name="export">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Choose export data</div>
+                        <div class="menu">
+                            <div class="item" data-value="all">All lists</div>
+                            <div class="item" ng-repeat="f in vm.Semantic.lists" data-value="{{f.id}}">{{f.title}}</div>
+                            <div class="item" ng-repeat="f in vm.getSubfolderLists()" data-value="{{f.id}}">{{f.title}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui toggle checkbox">
+                        <button class="ui right labeled icon button" ng-click="vm.exportAction()"><i class="right arrow icon"></i> Export </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui tab segment" data-tab="s2">
+        <div class="ui form">
+            <div class="field">
+                <p>You can import data here
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <input type="file" name="file" class="btn btn-default" ng-model="vm.files" my-files="files"/>
+                </div>
+                <div class="field">
+                    <div class="ui toggle checkbox">
+                        <button class="ui right labeled icon button" ng-click="vm.uploadFile()"><i class="left arrow icon"></i> Import </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui tab segment" data-tab="s3">
+        <div class="ui form">
+            <div class="field">
+                <p>Change password
+            </div>
+            <form name="passwordChangeForm" ng-submit="vm.onChangePw()">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Old password</label>
+                        <input type="password" name="old" placeholder="Old password" ng-model="old" required>
+                    </div>
+                    <div class="field">
+                        <label>New password</label>
+                        <input type="password" id="checkPasswordInput" name="password" placeholder="New password" ng-model="password" required>
+                    </div>
+                    <div class="field">
+                        <label>Repeat password</label>
+                        <input type="password" name="password_confirmation" placeholder="Repeat password" pw-check="checkPasswordInput" ng-model="password_confirmation" required>
+                        <span class='msg-error' ng-show='passwordChangeForm.password_confirmation.$error.pwmatch'>Passwords don't match.</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="ui button" type="submit">Change</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ui tab segment" data-tab="s4">
+        <div class="ui form">
+            <div class="field">
+                <p>Add / Delete tags
+            </div>
+            <form name="tagsForm">
+                <div class="two fields">
+                    <div class="field">
+                        <div class="ui fluid search selection dropdown Color-dropdown">
+                            <input type="hidden" name="color">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Select Color</div>
+                            <div class="menu">
+                                <div class="item" data-value="red"><div class="ui red empty circular label"></div>Red</div>
+                                <div class="item" data-value="teal"><div class="ui teal empty circular label"></div>Teal</div>
+                                <div class="item" data-value="orange"><div class="ui orange empty circular label"></div>Orange</div>
+                                <div class="item" data-value="blue"><div class="ui blue empty circular label"></div>Blue</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui right labeled left icon input">
+                            <i class="tags icon"></i>
+                            <input type="text" placeholder="New tag name" ng-model="vm.tag.title">
+                            <a class="ui tag label" ng-click="vm.createTag()">
+                                Add Tag
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="Tags-container">
+                        <a class="ui tag label" ng-class="tag.color" ng-repeat="tag in vm.tags">{{tag.title}} <i class="remove icon" ng-click="vm.deleteTag(tag.id)"></i></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

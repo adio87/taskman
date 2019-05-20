@@ -1,0 +1,72 @@
+<div class="ui attached stackable menu">
+    <div class="ui container">
+        <a class="item" ng-click="vm.toggle()">
+            <i class="content icon" style="margin-right: 0"></i>
+        </a>
+        <div class="ui simple dropdown item">
+            {{vm.User.model.name}}
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" ng-click="vm.logout()"><i class="edit icon"></i> Logout</a>
+            </div>
+        </div>
+        <a class="item">
+            <i class="home icon"></i> Home
+        </a>
+        <a class="item" ng-click="vm.share()">
+            <i class="share icon"></i> Share
+        </a>
+        <div class="ui simple dropdown item" ng-if="vm.SemanticService.currentList">
+            {{vm.SemanticService.currentList.title}}
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" ng-click="vm.removePredefined()"><i class="remove circle icon"></i> Remove predefined tasks</a>
+            </div>
+        </div>
+        <div class="ui simple dropdown item" ng-if="vm.SemanticService.currentList">
+            Order by: {{vm.SemanticService.orderBy.name}}
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" ng-repeat="f in vm.orderByFilters" ng-click="vm.changeOrder(f)">{{f.name}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal window for Share-->
+<div class="ui small modal Share-modal">
+    <i class="close icon"></i>
+    <div class="header">
+        Share "{{vm.SemanticService.currentList.title}}"
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field">
+                <label>List members</label>
+                <div class="ui search">
+                    <div class="ui icon input">
+                        <input class="prompt" type="text" placeholder="Enter the name or e-mail address" ng-model="vm.SemanticService.share" my-enter="">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="results"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui middle aligned list">
+            <div class="item">
+                <div class="content">{{vm.SemanticService.get('currentList').owner.name}} ({{vm.SemanticService.get('currentList').owner.email}})&nbsp;&nbsp;&nbsp;<a class="ui blue basic label">Owner</a></div>
+            </div>
+            <div class="item" ng-repeat="member in vm.SemanticService.get('currentList').members">
+                <div class="right floated content">
+                    <i class="minus square outline icon" ng-click="vm.deleteMember(member.id)"></i>
+                </div>
+                <div class="content">{{member.user.name}} ({{member.user.email}})&nbsp;&nbsp;&nbsp;<a class="ui basic label" ng-class="{'{{vm.statuses[member.status.id - 1]}}': true}">{{member.status.title}}</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui button close cancel">Cancel</div>
+        <div class="ui green button approve">Done</div>
+    </div>
+</div>
+<!--End modal window-->

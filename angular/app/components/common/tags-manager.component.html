@@ -1,0 +1,20 @@
+<div class="field">
+    <div class="Tags-container">
+        <a class="ui tag label" ng-class="item.color" ng-repeat="item in vm.currentTags">{{item.title}} <i class="remove icon" ng-click="vm.deleteTag(item.id)"></i></a>
+    </div>
+</div>
+<div class="two fields">
+    <div class="field">
+        <div class="ui fluid search selection dropdown" ng-class="[vm.selector]">
+            <input type="hidden" name="country">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select tag</div>
+            <div class="menu">
+                <div class="item" data-value="{{tag.id}}" ng-repeat="tag in vm.tags | notInArray: vm.currentTagsArray(): 'color'"><div class="ui empty circular label" ng-class="tag.color"></div>{{tag.title}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <button class="ui positive button" ng-click="vm.addTag()">Add</button>
+    </div>
+</div>

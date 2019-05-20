@@ -1,0 +1,35 @@
+<!-- Following Menu -->
+<div class="ui large top fixed hidden menu">
+    <div class="ui container">
+        <a ui-sref="app.landing" class="active item">Home</a>
+        <div class="right menu">
+            <div class="item">
+                <a ng-if="!vm.User.isLogin" ui-sref="app.login" class="ui button">Log in</a>
+                <a ng-if="vm.User.isLogin" ui-sref="profile.dashboard" class="ui primary button">{{vm.User.model.name}}</a>
+            </div>
+            <div class="item">
+                <a ng-if="!vm.User.isLogin" ui-sref="app.register" class="ui primary button">Sign Up</a>
+                <a ng-if="vm.User.isLogin" href="javascript:;" ng-click="vm.logout()" class="ui primary button">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Header-main ui inverted vertical masthead center aligned segment">
+
+    <div class="ui container">
+        <div class="ui large secondary inverted pointing menu">
+            <a class="toc item">
+                <i class="sidebar icon"></i>
+            </a>
+            <a ui-sref="app.landing" class="active item">Home</a>
+            <div class="right item">
+                <a ng-if="!vm.User.isLogin" ui-sref="app.login" class="ui inverted button">Log in</a>
+                <a ng-if="!vm.User.isLogin" ui-sref="app.register" class="ui inverted button">Sign Up</a>
+                <a ng-if="vm.User.isLogin" ui-sref="profile.dashboard" class="ui inverted button">{{vm.User.model.name}}</a>
+                <a ng-if="vm.User.isLogin" href="javascript:;" ng-click="vm.logout()" class="ui inverted button">Logout</a>
+            </div>
+        </div>
+    </div>
+
+</div>

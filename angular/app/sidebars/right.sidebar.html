@@ -1,0 +1,62 @@
+<div class="ui sidebar right inverted vertical menu" ng-controller="RightSideBarController as vm" ng-class="{'wide': !vm.Semantic.isMobile()}">
+    <div class="item">
+        <b>{{vm.Semantic.currentTask.title}}</b>
+        <i class="icon">
+            <div class="ui checkbox">
+                <input type="checkbox" name="{{vm.Semantic.currentTask.title}}" ng-click="vm.check()" ng-checked="vm.Semantic.currentTask.checked == 1">
+                <label></label>
+            </div>
+        </i>
+    </div>
+    <div class="Sidebar-container">
+        <div class="ui form">
+            <div class="field">
+                <label>Due date</label>
+                <div class="ui calendar" id="taskDueDate">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="text" placeholder="Date/Time" value="{{vm.Semantic.currentTask.due_date}}">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Estimated time (in minutes)</label>
+                <div class="ui input">
+                    <input type="number" placeholder="estimated time in minutes" ng-model="vm.Semantic.currentTask.estimated_time">
+                </div>
+            </div>
+            <div class="field">
+                <div class="Tags-container">
+                    <a class="ui tag label" ng-class="item.tag.color" ng-repeat="item in vm.currentTags">{{item.tag.title}} <i class="remove icon" ng-click="vm.deleteTag(item.id)"></i></a>
+                </div>
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <div class="ui fluid search selection dropdown" ng-class="[vm.selectorDropdown]">
+                        <input type="hidden" name="country">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select tag</div>
+                        <div class="menu">
+                            <div class="item" data-value="{{tag.id}}" ng-repeat="tag in vm.tags | notInArray:vm.currentTagsArray():'color'"><div class="ui empty circular label" ng-class="tag.color"></div>{{tag.title}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="ui positive button" ng-click="vm.addTag()">Add</button>
+                </div>
+            </div>
+            <div class="field">
+                <label>Further information</label>
+                <textarea name="description" id="" cols="30" rows="10" ng-model="vm.Semantic.currentTask.description">{{vm.Semantic.currentTask.description}}</textarea>
+            </div>
+            <div class="field">
+                <div class="ui slider checkbox">
+                    <input type="checkbox" name="predefined" ng-model="vm.Semantic.currentTask.high_priority" ng-checked="vm.Semantic.currentTask.high_priority == 1">
+                    <label>High Priority</label>
+                </div>
+            </div>
+            <div class="ui submit button" ng-click="vm.save()">Save</div>
+        </div>
+    </div>
+
+</div>

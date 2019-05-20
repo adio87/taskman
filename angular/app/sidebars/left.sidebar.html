@@ -1,0 +1,217 @@
+<div class="ui sidebar left inverted vertical menu" ng-controller="LeftSideBarController as vm" em-height-target em-height-callback="vm.isOverflow" em-height-event="resize">
+    <div class="item">
+        <a ui-sref="profile.dashboard"><b>Dashboard</b></a>
+    </div>
+
+    <div class="item Search-bar">
+        <div class="ui right labeled left icon input" ng-class="{'loading': $root.loadingSearch}">
+            <i class="search icon"></i>
+            <input placeholder="Search..." ng-model="vm.searchText" my-enter="vm.search()">
+            <div class="ui dropdown label Search-dropdown">
+                <div class="text" id="bySearch">by</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item">query</div>
+                    <div class="item">tag</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="item" ng-if="vm.Semantic.searchResults.length" ng-click="vm.toResults()">Search results</a>
+
+    <div dnd-list="vm.Semantic.lists"
+         dnd-allowed-types="vm.allowedTypes"
+         ng-if="vm.Semantic.lists.length">
+        <a class="item"
+           ui-sref="profile.dashboard.list({list: list.slug})"
+           ng-repeat="list in vm.Semantic.lists"
+           dnd-draggable="list"
+           dnd-type="vm.allowedTypes[0]"
+           dnd-moved="vm.Semantic.lists.splice($index, 1)"
+           dnd-effect-allowed="move"
+           dnd-dragstart="vm.Semantic.savePrevState()"
+           dnd-dragend="vm.order()"
+           my-drag-event="vm.replaceTask(list)"
+           ng-long-press
+           context-menu="vm.rightClickMenu"
+           ng-class="{'active': vm.$state.params.list == list.slug}">
+            <i class="icon" ng-class="{'list': list.recurring === 0, 'calendar': list.recurring}"></i>
+            <b>{{list.title}}</b>
+            <div class="ui small teal label" ng-if="list.in_completed[0].count">{{list.in_completed[0].count}}</div>
+        </a>
+    </div>
+
+    <div class="ui inverted accordion Folders-accordion">
+        <div ng-repeat="(key, item) in vm.Semantic.subFolders"
+             context-menu="vm.rightClickSubMenu">
+            <div class="title"><i class="dropdown icon"></i><i class="folder icon"></i> {{item.title}} </div>
+            <div class="content"
+                 dnd-list="item.lists"
+                 dnd-allowed-types="vm.allowedTypes">
+                <a class="item"
+                   ng-repeat="list in item.lists"
+                   dnd-draggable="list"
+                   dnd-type="vm.allowedTypes[0]"
+                   dnd-moved="item.lists.splice($index, 1)"
+                   dnd-effect-allowed="move"
+                   dnd-dragstart="vm.Semantic.savePrevState()"
+                   dnd-dragend="vm.order()"
+                   my-drag-event="vm.replaceTask(list)"
+                   ng-long-press
+                   ui-sref="profile.dashboard.list({list: list.slug})"
+                   context-menu="vm.rightClickMenu"
+                   ng-class="{'active': vm.$state.params.list == list.slug}">
+                    <i class="list icon"></i>
+                    <b>{{list.title}}</b>
+                    <div class="ui small teal label" ng-if="list.in_completed[0].count">{{list.in_completed[0].count}}</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div dnd-list="vm.Semantic.sharedLists">
+        <a class="item"
+           ui-sref="profile.dashboard.list({list: list.slug})"
+           ng-repeat="list in vm.Semantic.sharedLists"
+           dnd-draggable="list"
+           dnd-type="vm.allowedTypes[0]"
+           dnd-moved="vm.Semantic.sharedLists.splice($index, 1)"
+           dnd-effect-allowed="move"
+           dnd-dragstart="vm.Semantic.savePrevState()"
+           dnd-dragend="vm.order()"
+           my-drag-event="vm.replaceTask(list)"
+           ng-long-press
+           context-menu="vm.rightClickMenu"
+           ng-class="{'active': vm.$state.params.list == list.slug}">
+            <i class="list icon"></i>
+            <b>{{list.title}}</b>
+            <div class="ui small teal label" ng-if="list.in_completed[0].count">{{list.in_completed[0].count}}</div>
+        </a>
+    </div>
+
+    <div class="item Bottom-actions" ng-style="{position: vm.leftBarOverflow ? 'relative' : 'absolute'}">
+        <div class=" header">Actions</div>
+        <div class="menu">
+
+            <a class="item" ui-sref="{{action.link}}" ng-repeat="action in vm.actions" ng-click="action.handle()">
+                <i class="{{action.icon}}"></i>
+                {{action.name}}
+            </a>
+
+        </div>
+    </div>
+
+    <!--Modal window for Rename-->
+    <div class="ui small modal Rename-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Rename
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <div class="field">
+                    <label>New title</label>
+                    <input type="text" name="title" placeholder="title" ng-model="vm.Semantic.rename" my-enter="vm.triggerClick('.Rename-modal .approve')">
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui button close cancel">Cancel</div>
+            <div class="ui green button approve">Save</div>
+        </div>
+    </div>
+    <!--End modal window-->
+
+    <!--Modal window for Folder-->
+    <div class="ui small modal Create-subfolder-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Create new folder
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <div class="field">
+                    <label>Folder title</label>
+                    <input type="text" name="title" placeholder="Folder title" ng-model="vm.folderTitle" my-enter="vm.triggerClick('.Create-subfolder-modal .approve')">
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui button close cancel">Cancel</div>
+            <div class="ui green button approve">Create</div>
+        </div>
+    </div>
+    <!--End modal window-->
+
+    <!--Modal window for List Title-->
+    <div class="ui small modal Create-list-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Create new list
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <div class="field">
+                    <label>List title</label>
+                    <input type="text" name="title" placeholder="List title" ng-model="vm.title" my-enter="vm.triggerClick('.Create-list-modal .approve')">
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <div class="ui selection dropdown Folders-dropdown">
+                            <input type="hidden" name="gender">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">to folder</div>
+                            <div class="menu">
+                                <div class="item" ng-repeat="f in vm.Semantic.subFolders" data-value="{{f.id}}">{{f.title}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="predefined" ng-model="vm.includePredefined">
+                            <label>Include predefined list</label>
+                        </div>
+                    </div>
+                </div>
+                <tags-manager on-tag-add="vm.tagAdded(tag)" current-tags="vm.tags"></tags-manager>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui button close cancel">Cancel</div>
+            <div class="ui green button approve">Create</div>
+        </div>
+    </div>
+    <!--End modal window-->
+
+    <!--Modal window for Predefined List -->
+    <div class="ui small modal Create-predefinedList-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Create predefined tasks
+        </div>
+        <div class="content">
+            <div class="ui form">
+                <div class="field">
+                    <label>Task title</label>
+                    <input type="text" name="title" placeholder="Task title" ng-model="vm.taskTitle" my-enter="vm.triggerClick('.Create-predefinedList-modal .approve')">
+                </div>
+            </div>
+
+            <div class="ui middle aligned divided list">
+                <div class="item" ng-repeat="item in vm.tasks">
+                    <div class="right floated content">
+                        <i class="minus square outline icon" ng-click="vm.deletePredefined(item)"></i>
+                    </div>
+                    <div class="content">{{item.title}} </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="actions">
+            <div class="ui button close cancel">Cancel</div>
+            <div class="ui green button approve">Add</div>
+        </div>
+    </div>
+    <!--End modal window-->
+
+</div>

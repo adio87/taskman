@@ -1,0 +1,26 @@
+<form class="ui large form" ng-submit="vm.register()">
+	<div class="ui stacked segment">
+		<div class="field">
+			<div class="ui left icon input">
+				<i class="user icon"></i>
+				<input type="text" name="name" placeholder="Name" ng-model="vm.name">
+			</div>
+		</div>
+		<div class="field">
+			<div class="ui left icon input">
+				<i class="user icon"></i>
+				<input type="text" name="email" placeholder="E-mail address" ng-model="vm.email">
+			</div>
+		</div>
+		<div class="field">
+			<div class="ui left icon input">
+				<i class="lock icon"></i>
+				<input type="password" name="password" placeholder="Password" ng-model="vm.password">
+			</div>
+		</div>
+		<button type="submit" class="ui fluid large teal submit button">Create</button>
+	</div>
+
+	<div class="ui error message">sf</div>
+
+</form>

@@ -1,0 +1,39 @@
+.msg-error {
+  color: #FF0000;
+}
+
+.Search-bar {
+  .input input {
+    max-width: 146px !important;
+  }
+}
+
+.Tags-container {
+
+  &.right.floated {
+
+    a.ui.tag.label {
+      margin-right: 4px;
+      margin-bottom: 0;
+      height: 23px;
+      padding-top: 5px;
+
+      &:before {
+        top: 53%;
+        width: 1.26em;
+        height: 1.36em;
+      }
+    }
+  }
+
+  a.ui.tag.label {
+    margin-right: 14px;
+    margin-bottom: 8px;
+    padding-right: 10px;
+
+    i.icon {
+      margin-right: 0;
+      margin-left: 20px;
+    }
+  }
+}

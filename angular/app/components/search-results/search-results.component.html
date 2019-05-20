@@ -1,0 +1,43 @@
+<div class="ui Profile-container">
+    <div class="ui horizontal divider">
+        Search Results for "{{vm.$state.params.query}}"
+    </div>
+    <div ng-if="vm.Semantic.searchResults.total">
+        <div class="ui relaxed divided ordered list Incomplete-tasks">
+            <div class="item" ng-repeat="task in vm.Semantic.searchResults.notDone"
+                 ng-click="vm.show(task)"
+                 ng-if="vm.Semantic.searchResults.notDone.length">
+                <div class="right floated content" ng-click="vm.go(task)">
+                    <div class="ui button mini">Go</div>
+                </div>
+                <div class="Tags-container right floated">
+                    <a class="ui tag label" ng-class="item.tag.color" ng-repeat="item in task.tag">{{item.tag.title}}</a>
+                </div>
+                <div class="content" ng-class="{'line-through': task.checked}">
+                    {{task.title}} ({{task.list_title}})
+                </div>
+            </div>
+        </div>
+        <div class="ui horizontal divider">
+            Completed tasks
+        </div>
+        <div class="ui relaxed divided ordered list Incomplete-tasks">
+            <div class="item" ng-repeat="task in vm.Semantic.searchResults.done"
+                 ng-click="vm.show(task)"
+                 ng-if="vm.Semantic.searchResults.done.length">
+                <div class="right floated content" ng-click="vm.go(task)">
+                    <div class="ui button mini">Go</div>
+                </div>
+                <div class="Tags-container right floated">
+                    <a class="ui tag label" ng-class="item.tag.color" ng-repeat="item in task.tag">{{item.tag.title}}</a>
+                </div>
+                <div class="content" ng-class="{'line-through': task.checked}">
+                    {{task.title}} ({{task.list_title}})
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!vm.Semantic.searchResults.total">
+        There is no tasks found
+    </div>
+</div>
